@@ -1,0 +1,38 @@
+name: Build and Deploy to Google Cloud Run
+
+on:
+  [workflow_dispatch]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - id: auth
+        name: Authenticate to Google Cloud Platform
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+
+      - name: Docker Auth
+        run: gcloud auth configure-docker ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev
+
+      - name: Build and Push Container
+        run: |-
+          docker build -t ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_NAME }}/${{ secrets.CLOUD_RUN_NAME }}:${{ github.sha }} ./backend
+          docker push ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_NAME }}/${{ secrets.CLOUD_RUN_NAME }}:${{ github.sha }}
+
+      - name: Deploy to Google Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: ${{ secrets.CLOUD_RUN_NAME }}
+          region: ${{ secrets.CLOUD_RUN_REGION }}
+          image: ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.ARTIFACT_REGISTRY_NAME }}/${{ secrets.CLOUD_RUN_NAME }}:${{ github.sha }}
+
+      - name: Show output
+        run: |2-
+          
+          echo ${{ steps.deploy.outputs.url }}
