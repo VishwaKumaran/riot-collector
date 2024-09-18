@@ -19,6 +19,7 @@ jobs:
         name: Authenticate to Google Cloud Platform
         uses: google-github-actions/auth@v2
         with:
+          project_id: ${{ secrets.PROJECT_ID }}
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
 
       - name: Docker Auth
