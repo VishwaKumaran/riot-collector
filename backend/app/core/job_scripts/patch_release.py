@@ -7,6 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
+from app.core.job_scripts import KEYS, TACTICAL
 from app.crud.champion import Champion
 from app.crud.item import Item
 from app.crud.patch import Patch

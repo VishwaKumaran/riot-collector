@@ -20,3 +20,14 @@ class Scheduler:
 
     def get_job(self, job_id: str):
         return self.__scheduler.get_job(job_id)
+
+    def list_jobs(self):
+        return [{
+            'id': job.id,
+            'name': job.name,
+            'func': job.func_ref,
+            'next_run_time': str(job.next_run_time),
+            'trigger': str(job.trigger),
+            'args': job.args,
+            'kwargs': job.kwargs,
+        } for job in self.__scheduler.get_jobs()]
