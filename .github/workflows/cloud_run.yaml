@@ -21,6 +21,8 @@ jobs:
         with:
           project_id: ${{ secrets.PROJECT_ID }}
           workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/github@riot-collector.iam.gserviceaccount.com:generateAccessToken
+          audience: //iam.googleapis.com/projects/288655396357/locations/global/workloadIdentityPools/github/providers/riot-collector
 
       - name: Docker Auth
         run: gcloud auth configure-docker ${{ secrets.ARTIFACT_REGISTRY_REGION }}-docker.pkg.dev
