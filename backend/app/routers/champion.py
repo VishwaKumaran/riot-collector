@@ -14,13 +14,14 @@ async def create_champion(champion: ChampionCreate):
     return result
 
 
-# @router.get('/champions/list', response_model=List[ListChampion])
-# async def get_champion_list():
-#     result = await Champion.get_list_champions()
-#     return result
+@router.get('/champions/list', response_model=List[ListChampion])
+async def get_champion_list():
+    result = await Champion.get_list_champions()
+    return result
 
 
 @router.get('/champions/{patch_version}', response_model=List[GetChampion])
 async def get_champions_by_patch_version(patch_version: str, fields: Optional[List[str]] = Query(None)):
-    result = await Champion(patch_version).get(fields)
-    return result
+    return [{"id": "ceci"}]
+    # result = await Champion(patch_version).get(fields)
+    # return result
