@@ -16,8 +16,7 @@ async def create_patch(patch: PatchSchema):
 
 @router.get('/patch', response_model=List[GetPatchSchema])
 async def get_all_patch(fields: Optional[List[str]] = Query(None)):
-    last_version = await Patch.get_last_version()
-    result = await Patch(last_version['version']).get(fields)
+    result = await Patch.get_all_patch(fields)
     return result
 
 

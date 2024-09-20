@@ -37,6 +37,23 @@ class Patch:
         )
 
     @staticmethod
+    async def get_all_patch(fields: Optional[List[str]] = None) -> List[dict]:
+        result: list[dict] = []
+
+        docs = (
+            firebase.db.collection(settings.PATCH_COLLECTION)
+        )
+        if fields:
+            docs = docs.select(fields)
+
+        async for document in docs.stream():
+            _doc = document.to_dict()
+            _doc["id"] = document.id
+            result.append(_doc)
+
+        return result
+
+    @staticmethod
     async def get_last_version() -> dict:
         docs = (
             firebase.db.collection(settings.PATCH_COLLECTION)
