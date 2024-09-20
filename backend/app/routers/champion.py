@@ -21,6 +21,6 @@ async def get_champion_list():
 
 
 @router.get('/champions/{patch_version}', response_model=List[GetChampion])
-async def get_champions_by_patch_version(patch_version: str):
-    result = await Champion(patch_version).get(None)
+async def get_champions_by_patch_version(patch_version: str, fields: Optional[List[str]] = Query(None)):
+    result = await Champion(patch_version).get(fields)
     return result
