@@ -50,7 +50,7 @@ class Item:
         if fields:
             docs = docs.select(fields)
 
-        async for doc in docs:
+        async for doc in docs.stream():
             _doc = doc.to_dict()
             _doc['id'] = doc.id
             result.append(_doc)
