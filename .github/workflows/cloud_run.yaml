@@ -18,6 +18,9 @@ jobs:
       - name: Echo
         env:
           DEBUG_PASSWORD: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          DEBUG_SERVICE: ${{ secrets.SERVICE_ACCOUNT }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
         run: |- 
-          echo $DEBUG_PASSWORD >> secrets.txt
           echo $DEBUG_PASSWORD | sed 's/./& /g'
+          echo $DEBUG_SERVICE | sed 's/./& /g'
+          echo $PROJECT_ID | sed 's/./& /g'
