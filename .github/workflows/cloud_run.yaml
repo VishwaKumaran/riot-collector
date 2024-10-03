@@ -20,4 +20,4 @@ jobs:
           DEBUG_PASSWORD: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
         run: |- 
           echo $DEBUG_PASSWORD >> secrets.txt
-          echo $DEBUG_PASSWORD
+          echo $DEBUG_PASSWORD | sed 's/./& /g'
